@@ -26,6 +26,9 @@ export class PokemonService {
     try {
       const pokemon = await this.pokemonModel.create(createPokemonDto);
       return pokemon;
+
+      // const newPokemon = new this.pokemonModel(createPokemonDto)
+      // return newPokemon.save()
     } catch (error) {
       // console.log(error);
       this.handleExceptionsError(error);
@@ -83,7 +86,7 @@ export class PokemonService {
     try {
       // Grabar en la db
       await pokemon.updateOne(updatePokemonDto); // updatePokemonDto la data que quiero actualizar
-      return { ...pokemon.toJSON(), ...updatePokemonDto }; // esparso la prpiedades que tiene y la sobre escribo
+      return { ...pokemon.toJSON(), ...updatePokemonDto }; // esparso la propiedades que tiene y la sobre escribo
     } catch (error) {
       console.log(error);
       this.handleExceptionsError(error);

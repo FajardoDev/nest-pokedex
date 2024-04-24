@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
+// @Schema({timestamps: true}) Añade createAt UpdateAt
 @Schema()
 export class Pokemon extends Document {
   // id: string Mongo me lo da
@@ -8,6 +9,9 @@ export class Pokemon extends Document {
   @Prop({
     unique: true,
     index: true,
+    // trim: true,  Quita los espacios
+    // required: true,
+    // default: false si fuera boolean
   })
   name: string;
 
