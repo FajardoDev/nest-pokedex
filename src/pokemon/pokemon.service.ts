@@ -10,14 +10,26 @@ import { Model, isValidObjectId } from 'mongoose';
 import { Pokemon } from './entities/pokemon.entity';
 import { InjectModel } from '@nestjs/mongoose';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class PokemonService {
+  private defaultLimit: number;
+
   // Crear Pokémon en base de datos mediante la injección de dependencias
   constructor(
     @InjectModel(Pokemon.name)
     private readonly pokemonModel: Model<Pokemon>,
-  ) {}
+
+    private readonly configService: ConfigService, // error ir a pokemon.module e importar ConfigModule
+  ) {
+    // console.log(process.env.DEFAULT_LIMIT);
+
+    // const defaultLimit = configService.get<number>('defaultLimit');
+    // console.log({ defaultLimit });  Accediendo a las propiedades de env.config.ts EnvConfiguration
+
+    this.defaultLimit = configService.get<number>('defaultLimit');
+  }
 
   async create(createPokemonDto: CreatePokemonDto) {
     // return 'Esta acción añade un nuevo pokemon.';
@@ -36,7 +48,9 @@ export class PokemonService {
   }
   // .skip(3) se salta los primeros 3 // ordenarlo ascendente .sort({no: 1} delete columna .select('-__v')
   findAll(paginationDto: PaginationDto) {
-    const { limit = 20, offset = 0 } = paginationDto;
+    // variables de entorno
+
+    const { limit = this.defaultLimit, offset = 0 } = paginationDto; // limit = 20
 
     return this.pokemonModel
       .find()
