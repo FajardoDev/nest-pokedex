@@ -44,3 +44,13 @@ http://localhost:3000/api/v2/seed
 - MongoDB
 - Nest
 - CLI tailwind CSS
+
+# Production Build
+
+1. Crear el archivo ``.env.prod`
+2. Llenar la variable de entorno de prod
+3. Crear la nueva imagen de docker
+
+```
+docker-compose -f docker-compose.prod.yaml --env-file .env.prod up --build
+```
